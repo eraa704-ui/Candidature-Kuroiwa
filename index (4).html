@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Candidature — Clan Kuroiwa · Tokyo Ghoul RP</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #020d1a;
+  --bg2:    #041428;
+  --bg3:    #061c35;
+  --white:  #d8eaf8;
+  --steel:  #7aadcc;
+  --blue:   #2a7fc4;
+  --blue2:  #4db8ff;
+  --blue3:  #00d4ff;
+  --teal:   #00b4d8;
+  --glow:   rgba(77,184,255,0.18);
+  --border: rgba(77,184,255,0.12);
+  --border2:rgba(77,184,255,0.25);
+  --muted:  rgba(180,220,245,0.55);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',serif;overflow-x:hidden;}
+
+/* Custom cursor */
+.cursor{position:fixed;z-index:9999;pointer-events:none;transition:transform 0.15s ease,opacity 0.2s;}
+.cursor-dot{width:6px;height:6px;background:var(--blue3);border-radius:50%;position:fixed;transform:translate(-50%,-50%);transition:transform 0.1s;}
+.cursor-ring{width:32px;height:32px;border:1px solid rgba(77,184,255,0.5);border-radius:50%;position:fixed;transform:translate(-50%,-50%);transition:transform 0.25s ease,width 0.2s,height 0.2s,border-color 0.2s;}
+.cursor-ring.big{width:52px;height:52px;border-color:rgba(0,212,255,0.8);background:rgba(0,212,255,0.04);}
+
+#cv{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* ── LOADING ── */
+#load{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 1s;}
+#load.hide{opacity:0;pointer-events:none;}
+.ld-tag{font-family:'Space Mono',monospace;font-size:0.42rem;letter-spacing:6px;color:rgba(77,184,255,0.3);text-transform:uppercase;margin-bottom:2rem;}
+.ld-box{border:1px solid rgba(77,184,255,0.15);padding:3rem 3.5rem;text-align:center;position:relative;max-width:460px;width:90%;background:rgba(4,20,40,0.8);backdrop-filter:blur(20px);}
+.ld-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(77,184,255,0.6),transparent);}
+.ld-box::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,212,255,0.3),transparent);}
+.ld-shield{margin:0 auto 1.5rem;display:block;}
+.ld-title{font-family:'Cinzel',serif;font-size:0.85rem;letter-spacing:5px;color:var(--blue2);text-transform:uppercase;margin-bottom:0.3rem;}
+.ld-sub{font-size:0.85rem;color:rgba(77,184,255,0.4);font-style:italic;margin-bottom:1.8rem;letter-spacing:2px;}
+.ld-bw{width:100%;height:1px;background:rgba(77,184,255,0.08);margin-bottom:0.6rem;overflow:hidden;}
+.ld-bf{height:100%;background:linear-gradient(90deg,transparent,var(--blue3),transparent);width:0%;}
+.ld-pct{font-family:'Space Mono',monospace;font-size:0.45rem;letter-spacing:3px;color:rgba(77,184,255,0.4);margin-bottom:1.5rem;}
+.ld-lines{text-align:left;width:100%;margin-bottom:1.8rem;}
+.ld-line{font-family:'Space Mono',monospace;font-size:0.38rem;letter-spacing:2px;color:rgba(77,184,255,0.3);line-height:2.2;opacity:0;transition:opacity .35s;}
+.ld-line.on{opacity:1;}
+.ld-line .ok{color:rgba(0,255,180,0.6);}
+.ld-btn{padding:0.65rem 2.5rem;background:rgba(77,184,255,0.04);border:1px solid rgba(77,184,255,0.25);color:var(--blue2);font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:5px;text-transform:uppercase;cursor:pointer;transition:all .3s;opacity:0;pointer-events:none;}
+.ld-btn.rdy{opacity:1;pointer-events:all;}
+.ld-btn:hover{background:rgba(77,184,255,0.1);border-color:rgba(0,212,255,0.6);box-shadow:0 0 30px rgba(0,212,255,0.15);}
+#main{display:none;}
+#main.on{display:block;}
+
+/* ── HEADER ── */
+header{position:relative;z-index:2;text-align:center;padding:5rem 2rem 3.5rem;overflow:hidden;}
+header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(0,100,200,0.12),transparent 70%);pointer-events:none;}
+header::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(77,184,255,0.25),transparent);}
+.h-eyebrow{font-family:'Space Mono',monospace;font-size:0.42rem;letter-spacing:7px;color:rgba(77,184,255,0.35);text-transform:uppercase;margin-bottom:0.8rem;}
+.h-by{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(2.5rem,6vw,5.5rem);color:var(--blue2);letter-spacing:0.08em;text-shadow:0 0 60px rgba(77,184,255,0.35),0 0 120px rgba(0,212,255,0.15);display:block;margin-bottom:0.2rem;}
+.h-byline{font-family:'Space Mono',monospace;font-size:0.38rem;letter-spacing:5px;color:rgba(77,184,255,0.2);text-transform:uppercase;margin-bottom:1rem;}
+.h-byline span{color:rgba(77,184,255,0.45);}
+.h-title{font-family:'Cinzel',serif;font-weight:900;font-size:clamp(1.8rem,5vw,4rem);color:var(--white);letter-spacing:0.1em;text-shadow:0 0 80px rgba(77,184,255,0.2);line-height:1.1;margin-bottom:0.4rem;}
+.h-sub{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.5vw,1.5rem);color:var(--teal);letter-spacing:0.12em;font-style:italic;}
+.h-div{display:flex;align-items:center;gap:1.5rem;margin:1.5rem auto 0;max-width:380px;}
+.h-div::before,.h-div::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(77,184,255,0.25),transparent);}
+.h-div span{color:rgba(77,184,255,0.35);font-size:0.9rem;}
+.shield-deco{margin:2rem auto 0;display:block;animation:sdrift 8s ease-in-out infinite;}
+@keyframes sdrift{0%,100%{filter:drop-shadow(0 0 8px rgba(77,184,255,0.2))}50%{filter:drop-shadow(0 0 24px rgba(0,212,255,0.5))}}
+
+/* ── WRAPPER ── */
+.wrap{max-width:820px;margin:0 auto;padding:3rem 2rem;position:relative;z-index:2;}
+
+/* ── CHAPTER ── */
+.chapter{margin-bottom:4rem;opacity:0;transform:translateY(18px);transition:opacity .9s,transform .9s;}
+.chapter.vs{opacity:1;transform:translateY(0);}
+.ch-head{display:flex;align-items:center;gap:1.2rem;margin-bottom:2rem;padding-bottom:0.8rem;border-bottom:1px solid var(--border);}
+.ch-num{font-family:'Space Mono',monospace;font-size:0.42rem;letter-spacing:4px;color:rgba(77,184,255,0.22);min-width:22px;}
+.ch-title{font-family:'Cinzel',serif;font-size:clamp(0.8rem,2vw,1.1rem);color:var(--blue2);letter-spacing:0.1em;}
+
+/* ── INFOS ── */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@media(max-width:480px){.info-grid{grid-template-columns:1fr;}}
+.info-cell{background:rgba(77,184,255,0.03);border:1px solid var(--border);padding:1rem 1.2rem;transition:all 0.3s;position:relative;overflow:hidden;}
+.info-cell::before{content:'';position:absolute;inset:0;background:rgba(77,184,255,0.06);opacity:0;transition:opacity 0.3s;}
+.info-cell:hover::before{opacity:1;}
+.info-cell:hover{border-color:rgba(77,184,255,0.4);box-shadow:0 0 20px rgba(77,184,255,0.1),inset 0 0 20px rgba(77,184,255,0.03);}
+.info-lbl{font-family:'Space Mono',monospace;font-size:0.38rem;letter-spacing:4px;color:var(--blue);text-transform:uppercase;opacity:0.7;display:block;margin-bottom:0.4rem;}
+.info-val{font-size:1.1rem;color:var(--white);}
+.info-val.acc{color:var(--blue2);}
+
+/* ── LORE BLOCK ── */
+.lore-wrap{position:relative;padding-left:1.5rem;border-left:1px solid rgba(77,184,255,0.15);}
+.lore-wrap::before{content:'';position:absolute;top:0;left:-1px;width:1px;height:40px;background:var(--blue2);}
+.lore-p{font-size:1.12rem;line-height:2;color:var(--muted);margin-bottom:1.2rem;}
+.lore-p:last-child{margin-bottom:0;}
+
+/* ── OBJECTIFS ── */
+.obj-main{background:rgba(77,184,255,0.03);border:1px solid var(--border2);padding:1.8rem;margin-bottom:1.5rem;position:relative;overflow:hidden;transition:all 0.4s;}
+.obj-main::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue3),transparent);opacity:0.7;}
+.obj-main:hover{border-color:rgba(0,212,255,0.5);box-shadow:0 0 40px rgba(0,212,255,0.1),inset 0 0 30px rgba(77,184,255,0.04);}
+.obj-main-label{font-family:'Space Mono',monospace;font-size:0.4rem;letter-spacing:5px;color:var(--teal);text-transform:uppercase;margin-bottom:0.6rem;display:block;}
+.obj-main-title{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--blue2);margin-bottom:0.8rem;letter-spacing:2px;}
+.obj-main-text{font-size:1rem;color:var(--muted);line-height:1.9;}
+
+.obj-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+@media(max-width:520px){.obj-grid{grid-template-columns:1fr;}}
+.obj-card{background:rgba(77,184,255,0.02);border:1px solid var(--border);padding:1.4rem;position:relative;overflow:hidden;transition:all 0.35s;}
+.obj-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:linear-gradient(180deg,var(--blue3),transparent);}
+.obj-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(77,184,255,0.08),transparent 70%);opacity:0;transition:opacity 0.3s;}
+.obj-card:hover::after{opacity:1;}
+.obj-card:hover{border-color:rgba(77,184,255,0.4);box-shadow:0 0 30px rgba(77,184,255,0.12),0 8px 32px rgba(0,0,30,0.4);transform:translateY(-3px);}
+.obj-type{font-family:'Space Mono',monospace;font-size:0.38rem;letter-spacing:4px;color:var(--blue);text-transform:uppercase;opacity:0.65;display:block;margin-bottom:0.5rem;}
+.obj-name{font-family:'Cinzel',serif;font-size:0.78rem;color:var(--blue2);margin-bottom:0.8rem;letter-spacing:2px;}
+.obj-text{font-size:0.9rem;color:var(--muted);line-height:1.8;}
+
+/* ── XP ── */
+.xp-list{list-style:none;}
+.xp-row{display:flex;align-items:center;gap:1rem;padding:0.75rem 1rem;border-bottom:1px solid rgba(77,184,255,0.06);font-size:1rem;color:var(--muted);transition:all 0.25s;cursor:default;}
+.xp-row:first-child{border-top:1px solid rgba(77,184,255,0.06);}
+.xp-row:hover{background:rgba(77,184,255,0.05);color:var(--white);padding-left:1.6rem;border-color:rgba(77,184,255,0.2);}
+.xp-dot{width:4px;height:4px;border:1px solid var(--blue);flex-shrink:0;transition:all 0.25s;}
+.xp-row:hover .xp-dot{background:var(--blue3);border-color:var(--blue3);box-shadow:0 0 8px var(--blue3);}
+
+/* ── TRAITS ── */
+.trait-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.8rem;}
+@media(max-width:600px){.trait-grid{grid-template-columns:1fr;}}
+@media(max-width:900px) and (min-width:601px){.trait-grid{grid-template-columns:1fr 1fr;}}
+.trait-card{background:rgba(77,184,255,0.02);border:1px solid var(--border);padding:1.2rem 1.4rem;position:relative;overflow:hidden;transition:all 0.35s;}
+.trait-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(77,184,255,0.35),transparent);}
+.trait-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(77,184,255,0.07),transparent 70%);opacity:0;transition:opacity 0.3s;}
+.trait-card:hover::after{opacity:1;}
+.trait-card:hover{border-color:rgba(77,184,255,0.35);box-shadow:0 0 24px rgba(77,184,255,0.1),0 6px 24px rgba(0,0,30,0.4);transform:translateY(-2px);}
+.trait-label{font-family:'Cinzel',serif;font-size:0.72rem;color:var(--blue2);letter-spacing:2px;margin-bottom:0.6rem;}
+.trait-text{font-size:0.88rem;color:var(--muted);line-height:1.8;}
+
+/* ── MUSIC PLAYER ── */
+#player{position:fixed;bottom:0;left:0;right:0;z-index:9998;cursor:auto!important;background:rgba(2,13,26,0.92);backdrop-filter:blur(20px);border-top:1px solid rgba(77,184,255,0.15);padding:0.7rem 2rem;display:flex;align-items:center;gap:1.2rem;}
+#player::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(77,184,255,0.5),transparent);}
+.pl-btn{width:36px;height:36px;border:1px solid rgba(77,184,255,0.3);background:rgba(77,184,255,0.06);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.25s;position:relative;cursor:pointer!important;}
+.pl-btn:hover{background:rgba(77,184,255,0.15);border-color:rgba(0,212,255,0.6);box-shadow:0 0 16px rgba(0,212,255,0.2);}
+.pl-btn svg{width:14px;height:14px;fill:var(--blue2);transition:fill 0.2s;}
+.pl-btn:hover svg{fill:var(--blue3);}
+.pl-info{flex:1;min-width:0;}
+.pl-title{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:3px;color:var(--blue2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pl-artist{font-family:'Space Mono',monospace;font-size:0.38rem;letter-spacing:2px;color:rgba(77,184,255,0.35);margin-top:0.15rem;}
+.pl-bar-wrap{flex:2;display:flex;align-items:center;gap:0.7rem;}
+.pl-time{font-family:'Space Mono',monospace;font-size:0.38rem;color:rgba(77,184,255,0.4);white-space:nowrap;}
+.pl-progress{flex:1;height:3px;background:rgba(77,184,255,0.1);border-radius:2px;position:relative;overflow:hidden;cursor:pointer!important;}
+.pl-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--blue3));border-radius:2px;transition:width 0.3s linear;}
+.pl-vol{display:flex;align-items:center;gap:0.5rem;flex-shrink:0;}
+.pl-vol-icon{width:14px;height:14px;fill:rgba(77,184,255,0.4);}
+.pl-vol-bar{width:60px;height:3px;background:rgba(77,184,255,0.1);border-radius:2px;position:relative;}
+.pl-vol-fill{height:100%;width:70%;background:rgba(77,184,255,0.4);border-radius:2px;}
+@media(max-width:520px){.pl-bar-wrap{display:none;}.pl-vol{display:none;}}
+#player,#player *{cursor:auto!important;pointer-events:auto!important;}
+footer{position:relative;z-index:2;text-align:center;padding:3rem 2rem 6rem;border-top:1px solid var(--border);}
+.f-text{font-family:'Space Mono',monospace;font-size:0.42rem;letter-spacing:4px;color:rgba(77,184,255,0.15);text-transform:uppercase;}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div class="cursor-dot" id="cdot"></div>
+<div class="cursor-ring" id="cring"></div>
+
+<!-- LOADING -->
+<div id="load">
+  <div class="ld-tag">◆ &nbsp; Dossier Confidentiel — CCG · Clan Kuroiwa &nbsp; ◆</div>
+  <div class="ld-box">
+    <svg class="ld-shield" width="80" height="90" viewBox="0 0 80 90" fill="none">
+      <path d="M40 4 L72 16 L72 45 Q72 70 40 86 Q8 70 8 45 L8 16 Z" stroke="rgba(77,184,255,0.5)" stroke-width="0.8" fill="rgba(77,184,255,0.03)"/>
+      <path d="M40 12 L65 22 L65 45 Q65 64 40 78 Q15 64 15 45 L15 22 Z" stroke="rgba(77,184,255,0.2)" stroke-width="0.5" fill="none"/>
+      <line x1="40" y1="22" x2="40" y2="65" stroke="rgba(77,184,255,0.3)" stroke-width="0.5"/>
+      <line x1="22" y1="40" x2="58" y2="40" stroke="rgba(77,184,255,0.3)" stroke-width="0.5"/>
+      <circle cx="40" cy="40" r="6" stroke="rgba(0,212,255,0.6)" stroke-width="0.6" fill="rgba(0,212,255,0.06)"/>
+      <circle cx="40" cy="40" r="2.5" fill="rgba(0,212,255,0.7)"/>
+      <path d="M40 4 L72 16" stroke="rgba(77,184,255,0.2)" stroke-width="0.4"/>
+      <path d="M40 4 L8 16" stroke="rgba(77,184,255,0.2)" stroke-width="0.4"/>
+    </svg>
+    <div class="ld-title">Dossier de Candidature</div>
+    <div class="ld-sub">Koru Kuroiwa · CCG</div>
+    <div class="ld-bw"><div class="ld-bf" id="lbar"></div></div>
+    <div class="ld-pct" id="lpct">0%</div>
+    <div class="ld-lines">
+      <div class="ld-line" id="ll1">› Accès archives CCG — Classe S<span style="animation:blink .8s infinite;display:inline-block">_</span></div>
+      <div class="ld-line" id="ll2">› Vérification lignée Kuroiwa <span class="ok">[ CONFIRMÉE ]</span></div>
+      <div class="ld-line" id="ll3">› Scan biométrique — Force physique<span style="animation:blink .8s infinite;display:inline-block">_</span></div>
+      <div class="ld-line" id="ll4">› Indice physique : Top 0.01% humanité <span class="ok">[ OK ]</span></div>
+      <div class="ld-line" id="ll5">› Chargement du dossier complet<span style="animation:blink .8s infinite;display:inline-block">_</span></div>
+      <div class="ld-line" id="ll6">› Accès autorisé <span class="ok">[ CONFIDENTIEL ]</span></div>
+    </div>
+    <button class="ld-btn" id="lbtn" onclick="enter()">◆ &nbsp; Consulter le Dossier &nbsp; ◆</button>
+  </div>
+</div>
+<style>@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}</style>
+
+<!-- MAIN -->
+<div id="main">
+
+<header>
+  <p class="h-eyebrow">◆ Tokyo Ghoul RP · Candidature Officielle ◆</p>
+  <span class="h-by">Manatsu</span>
+  <p class="h-byline">by <span>Manatsu</span></p>
+  <h1 class="h-title">CLAN KUROIWA</h1>
+  <p class="h-sub">Koru Kuroiwa · Inspecteur CCG</p>
+  <div class="h-div"><span>◆</span></div>
+
+  <svg class="shield-deco" width="120" height="135" viewBox="0 0 120 135" fill="none">
+    <path d="M60 6 L108 24 L108 67 Q108 105 60 129 Q12 105 12 67 L12 24 Z" stroke="rgba(77,184,255,0.3)" stroke-width="0.7" fill="rgba(77,184,255,0.02)"/>
+    <path d="M60 16 L98 30 L98 67 Q98 96 60 116 Q22 96 22 67 L22 30 Z" stroke="rgba(77,184,255,0.15)" stroke-width="0.5" fill="none"/>
+    <line x1="60" y1="32" x2="60" y2="98" stroke="rgba(77,184,255,0.22)" stroke-width="0.5"/>
+    <line x1="32" y1="60" x2="88" y2="60" stroke="rgba(77,184,255,0.22)" stroke-width="0.5"/>
+    <circle cx="60" cy="60" r="12" stroke="rgba(0,212,255,0.4)" stroke-width="0.6" fill="rgba(0,212,255,0.04)"/>
+    <circle cx="60" cy="60" r="5" stroke="rgba(0,212,255,0.6)" stroke-width="0.5" fill="rgba(0,212,255,0.07)"/>
+    <circle cx="60" cy="60" r="2" fill="rgba(0,212,255,0.7)"/>
+    <path d="M60 6 L108 24" stroke="rgba(200,168,112,0.1)" stroke-width="0.4"/>
+    <path d="M60 6 L12 24" stroke="rgba(77,184,255,0.15)" stroke-width="0.4"/>
+    <circle cx="60" cy="6" r="2" fill="rgba(77,184,255,0.5)"/>
+    <circle cx="108" cy="24" r="1.5" fill="rgba(77,184,255,0.35)"/>
+    <circle cx="12" cy="24" r="1.5" fill="rgba(77,184,255,0.35)"/>
+  </svg>
+</header>
+
+<div class="wrap">
+
+  <!-- 01 INFOS -->
+  <div class="chapter">
+    <div class="ch-head"><span class="ch-num">01</span><h2 class="ch-title">Informations Générales</h2></div>
+    <div class="info-grid">
+      <div class="info-cell"><span class="info-lbl">Pseudo Discord</span><div class="info-val acc">Manatsu</div></div>
+      <div class="info-cell"><span class="info-lbl">Nom du personnage</span><div class="info-val">Koru Kuroiwa</div></div>
+      <div class="info-cell"><span class="info-lbl">Clan</span><div class="info-val acc">Kuroiwa</div></div>
+      <div class="info-cell"><span class="info-lbl">Serveur</span><div class="info-val">Tokyo Ghoul RP</div></div>
+    </div>
+  </div>
+
+  <!-- 02 HISTOIRE DU PERSONNAGE -->
+  <div class="chapter">
+    <div class="ch-head"><span class="ch-num">02</span><h2 class="ch-title">Histoire du Personnage</h2></div>
+    <div class="lore-wrap">
+      <p class="lore-p">Koru a grandit dans une famille ou tout était cadré. Son père était inspecteur au CCG. Sa mère aussi. Les journées commençaient tôt et se terminaient tard. Personne se plaignait. C'était comme ça et ça changeait pas.</p>
+      <p class="lore-p">À huit ans son père l'a mit au sport de combat. Pour lui apprendre que le corps est un outil et qu'un outil qui est pas entretenu sert à rien. Koru a beaucoup perdu ses premières années.</p>
+      <p class="lore-p">À la maison les règles étaient claire : on ment pas et on assume ce qu'on fait. Son père criait jamais. Il en avait pas besoin. Un regard suffisait.</p>
+      <p class="lore-p">Koru a rejoins l'académie du CCG sans hésiter. C'est ce que les Kuroiwa font depuis des générations et il avait aucune raison de briser ça. Il a travaillé plus que les autres dès le premier jour. Pour être irréprochable.</p>
+      <p class="lore-p">Avec le temps il a compris que le CCG était pas l'institution qu'on lui avait décrite. Il a vue des choses qui collaient pas avec les valeurs qu'on lui avait enseignés. Des décisions prise dans l'ombre. Des méthodes que personne assume à voix haute. Koru a pas quitté pour autant. Il se devait de découvrir la vérité.</p>
+    </div>
+  </div>
+
+  <!-- 03 CARACTÈRE -->
+  <div class="chapter">
+    <div class="ch-head"><span class="ch-num">03</span><h2 class="ch-title">Caractère</h2></div>
+    <div class="lore-wrap">
+      <p class="lore-p">Koru est calme et sérieux. Il a une mentalité militaire stricte. Loyal envers le clan Kuroiwa il reste très indépendant et préfère compter sur lui même plutôt que dépendre des autres. Il respecte les règles et l'honneur mais déteste les manipulations et les décisions prise dans l'ombre. Peu expressif et difficile à approché il agit toujours de manière froide et réfléchie.</p>
+    </div>
+  </div>
+
+  <!-- 05 OBJECTIFS -->
+  <div class="chapter">
+    <div class="ch-head"><span class="ch-num">05</span><h2 class="ch-title">Objectifs</h2></div>
+
+    <!-- Objectif principal -->
+    <div class="obj-main">
+      <span class="obj-main-label">◆ Objectif Principal</span>
+      <div class="obj-main-title">Révéler la vérité du CCG</div>
+      <div class="obj-main-text">Koru veut savoir si le CCG a vraiment des valeurs, ou si c'est juste une façade gérée par des gens qui agissent dans l'ombre. Ce qu'il trouvera changera la direction que prendra le clan après lui.</div>
+    </div>
+
+    <!-- Objectifs personnels -->
+    <div class="obj-grid">
+      <div class="obj-card">
+        <span class="obj-type">Personnel</span>
+        <div class="obj-name">Être reconnu. Devenir une légende</div>
+        <div class="obj-text">Koru veut devenir une légende. Il veut que son nom finisse dans les livres d'histoire du CCG.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-name">Cellule de commandement</div>
+        <div class="obj-text">Monter assez haut pour être dans les réunions où les vraies décisions se prennent. Observer ce que le CCG est vraiment prêt à faire.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-name">Chef de la Section Académique</div>
+        <div class="obj-text">Diriger la section académique pour former les futurs inspecteurs avec de vraies valeurs : honneur, discipline, respect de la vie. Changer le CCG en commençant par ceux qui le rejoignent.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-name">Entraînements Combat à Mains Nues</div>
+        <div class="obj-text">Organiser des séances de combat à mains nues pour apprendre aux inspecteurs à se battre sans dépendre de leur quinque. Un corps qui sait se défendre seul, c'est un inspecteur qui reste libre.</div>
+      </div>
+    </div>
+
+    <!-- Squad elite -->
+    <div class="obj-card" style="margin-bottom:0.8rem;">
+      <span class="obj-type">Long terme · RP</span>
+      <div class="obj-name">La Squad Indépendante. Unité d'Élite Kuroiwa</div>
+      <div class="obj-text" style="margin-bottom:1rem;">Une unité spécialisée dans la protection rapprochée et l'escorte de personnalités importantes. Gardes du corps, couverture de déplacement, sécurisation de périmètre. Des inspecteurs entraînés pour mettre leur corps entre une menace et la personne qu'ils protègent, et tenir cette position quoi qu'il arrive.<br><br>Cette squad sera dirigée par Koru. Les membres sont choisis pour leur sang-froid, leur discipline et leur capacité à agir vite dans des situations où l'erreur n'est pas permise.</div>
+    </div>
+
+  </div>
+
+  <!-- 06 XP -->
+  <div class="chapter">
+    <div class="ch-head"><span class="ch-num">06</span><h2 class="ch-title">Expériences RP</h2></div>
+    <ul class="xp-list">
+      <li class="xp-row"><div class="xp-dot"></div>FSC</li>
+      <li class="xp-row"><div class="xp-dot"></div>FOC JJK</li>
+      <li class="xp-row"><div class="xp-dot"></div>SDA</li>
+      <li class="xp-row"><div class="xp-dot"></div>HDS. Jinchuriki de Shukaku</li>
+      <li class="xp-row"><div class="xp-dot"></div>SKZ</li>
+      <li class="xp-row"><div class="xp-dot"></div>Dark RP</li>
+      <li class="xp-row"><div class="xp-dot"></div>Solve</li>
+      <li class="xp-row"><div class="xp-dot"></div>TKG (3000 RC). Ghoul</li>
+    </ul>
+  </div>
+
+</div><!-- end wrap -->
+
+<footer>
+  <div class="f-text">CCG · Clan Kuroiwa · Dossier Confidentiel · Tokyo Ghoul RP</div>
+</footer>
+
+</div><!-- end main -->
+
+<!-- MUSIC PLAYER -->
+<audio id="audio" src="glassy_sky.mp3" preload="metadata"></audio>
+<div id="player">
+  <button class="pl-btn" id="pl-play" title="Play / Pause">
+    <svg id="pl-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  </button>
+  <div class="pl-info">
+    <div class="pl-title">Glassy Sky</div>
+    <div class="pl-artist">Tokyo Ghoul OST</div>
+  </div>
+  <div class="pl-bar-wrap">
+    <span class="pl-time" id="pl-cur">0:00</span>
+    <div class="pl-progress" id="pl-progress">
+      <div class="pl-progress-fill" id="pl-fill"></div>
+    </div>
+    <span class="pl-time" id="pl-dur">0:00</span>
+  </div>
+  <div class="pl-vol">
+    <svg class="pl-vol-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+    <div class="pl-vol-bar"><div class="pl-vol-fill" id="pl-vol-fill"></div></div>
+  </div>
+</div>
+
+<script>
+// ── LOADING ──
+let pct=0;
+const bar=document.getElementById('lbar');
+const pctEl=document.getElementById('lpct');
+const lines=['ll1','ll2','ll3','ll4','ll5','ll6'];
+const lTimes=[300,900,1500,2100,2700,3200];
+const pTargets=[0,15,30,50,68,85,100];
+const pTimes=[0,400,1000,1600,2200,2800,3500];
+
+pTimes.forEach((t,i)=>{
+  setTimeout(()=>{
+    const target=pTargets[i];
+    const iv=setInterval(()=>{ if(pct<target){pct++;bar.style.width=pct+'%';pctEl.textContent=pct+'%';}else clearInterval(iv); },18);
+  },t);
+});
+lTimes.forEach((t,i)=>setTimeout(()=>document.getElementById(lines[i]).classList.add('on'),t));
+setTimeout(()=>document.getElementById('lbtn').classList.add('rdy'),3700);
+
+function enter(){
+  document.getElementById('load').classList.add('hide');
+  document.getElementById('main').classList.add('on');
+  document.body.style.cursor='none';
+  document.querySelectorAll('*').forEach(el=>el.style.cursor='none');
+  setTimeout(()=>document.getElementById('load').style.display='none',1000);
+}
+
+// ── CUSTOM CURSOR ──
+const dot=document.getElementById('cdot');
+const ring=document.getElementById('cring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+setInterval(()=>{rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';},16);
+document.querySelectorAll('a,button,.obj-card,.info-cell,.xp-row').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('big'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('big'));
+});
+
+// ── CANVAS — BULLES OCÉAN ──
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+let W,H,T=0;
+function rsz(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+rsz();window.addEventListener('resize',rsz);
+function rn(a,b){return Math.random()*(b-a)+a;}
+
+class Bubble{
+  constructor(init){this.reset(init);}
+  reset(init){
+    this.x=rn(0,W);
+    this.y=init?rn(0,H):H+rn(10,40);
+    this.r=rn(2,14);
+    this.vy=-(rn(0.15,0.55));
+    this.vx=Math.sin(rn(0,Math.PI*2))*0.2;
+    this.wobble=rn(0,Math.PI*2);
+    this.wobbleSpeed=rn(0.01,0.03);
+    this.a=rn(0.04,0.18);
+    this.hue=rn(185,215);
+    this.life=1;
+    this.decay=rn(0.0008,0.002);
+  }
+  update(){
+    this.wobble+=this.wobbleSpeed;
+    this.x+=this.vx+Math.sin(this.wobble)*0.3;
+    this.y+=this.vy;
+    this.life-=this.decay;
+    if(this.y<-20||this.life<=0)this.reset(false);
+  }
+  draw(){
+    const alpha=this.a*this.life;
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.strokeStyle=`hsla(${this.hue},80%,70%,${alpha})`;
+    ctx.lineWidth=0.8;
+    ctx.stroke();
+    // inner highlight
+    ctx.beginPath();
+    ctx.arc(this.x-this.r*0.3,this.y-this.r*0.3,this.r*0.25,0,Math.PI*2);
+    ctx.fillStyle=`hsla(${this.hue},90%,90%,${alpha*0.6})`;
+    ctx.fill();
+  }
+}
+
+class Ray{
+  constructor(init){this.reset(init);}
+  reset(init){
+    this.x=rn(0,W);
+    this.y=init?rn(0,H):rn(-300,-10);
+    this.h=rn(80,200);
+    this.vy=rn(0.4,1.2);
+    this.a=rn(0.015,0.06);
+    this.life=1;
+    this.decay=rn(0.0004,0.001);
+    this.hue=rn(190,220);
+  }
+  update(){this.y+=this.vy;this.life-=this.decay;if(this.y>H+200||this.life<=0)this.reset(false);}
+  draw(){
+    const alpha=this.a*this.life;
+    const g=ctx.createLinearGradient(this.x,this.y,this.x,this.y+this.h);
+    g.addColorStop(0,'transparent');
+    g.addColorStop(0.4,`hsla(${this.hue},85%,65%,${alpha})`);
+    g.addColorStop(1,'transparent');
+    ctx.beginPath();ctx.moveTo(this.x,this.y);ctx.lineTo(this.x,this.y+this.h);
+    ctx.strokeStyle=g;ctx.lineWidth=0.6;ctx.stroke();
+  }
+}
+
+const bubbles=Array.from({length:60},()=>new Bubble(true));
+const rays=Array.from({length:30},()=>new Ray(true));
+
+function animate(){
+  T+=.006;
+  ctx.clearRect(0,0,W,H);
+  // Deep ocean gradient bg
+  const bg=ctx.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,'#020d1a');
+  bg.addColorStop(0.5,'#031628');
+  bg.addColorStop(1,'#020b16');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  // Animated radial glow
+  const gx=W/2+Math.sin(T*0.3)*80;
+  const rg=ctx.createRadialGradient(gx,H*0.3,0,gx,H*0.3,W*0.5);
+  rg.addColorStop(0,'rgba(30,90,180,0.08)');
+  rg.addColorStop(0.5,'rgba(0,60,120,0.04)');
+  rg.addColorStop(1,'transparent');
+  ctx.fillStyle=rg;ctx.fillRect(0,0,W,H);
+  rays.forEach(r=>{r.update();r.draw();});
+  bubbles.forEach(b=>{b.update();b.draw();});
+  requestAnimationFrame(animate);
+}
+animate();
+
+// ── MUSIC PLAYER ──
+const audio=document.getElementById('audio');
+
+const playBtn=document.getElementById('pl-play');
+const icon=document.getElementById('pl-icon');
+const fill=document.getElementById('pl-fill');
+const cur=document.getElementById('pl-cur');
+const dur=document.getElementById('pl-dur');
+const progress=document.getElementById('pl-progress');
+
+const playPath='M8 5v14l11-7z';
+const pausePath='M6 19h4V5H6v14zm8-14v14h4V5h-4z';
+
+function fmt(s){const m=Math.floor(s/60);return m+':'+(Math.floor(s%60)+'').padStart(2,'0');}
+
+audio.addEventListener('loadedmetadata',()=>{dur.textContent=fmt(audio.duration);});
+audio.addEventListener('timeupdate',()=>{
+  const pct=(audio.currentTime/audio.duration)*100||0;
+  fill.style.width=pct+'%';
+  cur.textContent=fmt(audio.currentTime);
+});
+audio.addEventListener('ended',()=>{icon.innerHTML='<path d="'+playPath+'"/>';});
+
+playBtn.addEventListener('click',()=>{
+  if(audio.paused){audio.play();icon.innerHTML='<path d="'+pausePath+'"/>';}
+  else{audio.pause();icon.innerHTML='<path d="'+playPath+'"/>';}
+});
+
+progress.addEventListener('click',e=>{
+  const rect=progress.getBoundingClientRect();
+  audio.currentTime=((e.clientX-rect.left)/rect.width)*audio.duration;
+});
+
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vs');}),{threshold:0.06});
+document.querySelectorAll('.chapter').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
